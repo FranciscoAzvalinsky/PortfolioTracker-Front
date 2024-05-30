@@ -12,6 +12,21 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material';
+import Alert from '@mui/material/Alert';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
+
+
+import { useEffect, useRef, useState } from 'react';
+import intlTelInput from 'intl-tel-input'; // Importa la biblioteca correctamente
+import 'intl-tel-input/build/css/intlTelInput.css'; // Importa el CSS
+import 'intl-tel-input/build/css/demo.css'; // Importa el CSS
+
+import validation from '../registerValidation'
 
 function Copyright(props) {
   return (
@@ -39,6 +54,49 @@ export default function SignUp() {
       password: data.get('password'),
     });
   };
+
+  const phoneInputRef = useRef(null);
+
+  useEffect(() => {
+    const input = phoneInputRef.current;
+    if (input) {
+      intlTelInput(input, {});
+    }
+  }, []);
+
+  const CustomTextField = styled(TextField)({
+    '&& .MuiInputLabel-root': {
+      marginLeft: '2.4rem', // Ajusta este valor según sea necesario
+    },
+  });
+
+
+  let [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    username: '',
+    phoneNumber: '',
+    nationality: '',
+    birthDate: null,
+    password: '',
+  })
+
+  const [errors, setErrors] = useState({});
+
+  function handleChange(e) {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value
+    })
+    let name = e.target.name
+    setErrors(validation(
+      userData,
+      name
+    ));
+
+  }
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -69,7 +127,10 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={userData.firstName}
+                  onChange={handleChange}
                 />
+                {errors.firstName && <Alert severity="error">{errors.firstName}</Alert>}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -79,7 +140,10 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={userData.lastName}
+                  onChange={handleChange}
                 />
+                {errors.lastName && <Alert severity="error">{errors.lastName}</Alert>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -89,7 +153,10 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={userData.email}
+                  onChange={handleChange}
                 />
+                {errors.email && <Alert severity="error">{errors.email}</Alert>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -99,7 +166,10 @@ export default function SignUp() {
                   label="Username"
                   name="username"
                   autoComplete="username"
+                  value={userData.username}
+                  onChange={handleChange}
                 />
+                {errors.username && <Alert severity="error">{errors.username}</Alert>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -109,27 +179,45 @@ export default function SignUp() {
                   label="Nationality"
                   name="nationality"
                   autoComplete="nationality"
+                  value={userData.nationality}
+                  onChange={handleChange}
                 />
+                {errors.nationality && <Alert severity="error">{errors.nationality}</Alert>}
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <CustomTextField
                   required
                   fullWidth
+                  type='tel'
                   id="phoneNumber"
                   label="Phone Number"
                   name="phoneNumber"
                   autoComplete="phoneNumber"
+                  inputRef={phoneInputRef}
+                  value={userData.phoneNumber}
+                  onChange={handleChange}
                 />
+                {errors.phoneNumber && <Alert severity="error">{errors.phoneNumber}</Alert>}
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="birthDate"
-                  label="Birth Date"
-                  name="birthDate"
-                  autoComplete="birthDate"
-                />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Fecha de nacimiento"
+                    renderInput={(params) =>
+                      <TextField
+                        required
+                        fullWidth
+                        id="birthDate"
+                        type="date"
+                        label="Birth Date"
+                        autoComplete="birthDate"
+                        name='birthDate'
+                        value={userData.birthDate}
+                        onChange={handleChange}
+                      />}
+                  />
+                </LocalizationProvider>
+                {errors.birthDate && <Alert severity="error">{errors.birthDate}</Alert>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -140,7 +228,10 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={userData.password}
+                  onChange={handleChange}
                 />
+                {errors.password && <Alert severity="error">{errors.password}</Alert>}
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
