@@ -31,7 +31,7 @@ export default function validation(inputs, name) {
     case 'email':
       (!inputs.email) ? errors.email = 'email is required' : errors.email = '';
       if (inputs.email) {
-        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputs.email)) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputs.email)) {
           errors.email = 'email is not valid';
         } else {
           errors.email += '';
@@ -62,7 +62,7 @@ export default function validation(inputs, name) {
     case 'nationality':
       (!inputs.nationality) ? errors.nationality = 'nationality is required' : errors.nationality = '';
       if (inputs.nationality) {
-        if (/^[a-zA-Z]+$/.test(inputs.nationality)) {
+        if (!/^[a-zA-Z]+$/.test(inputs.nationality)) {
           errors.nationality = 'nationality is not valid'
         } else {
           errors.nationality += '';

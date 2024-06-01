@@ -19,6 +19,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+
+import Swal from "sweetalert2";
 
 
 import { useEffect, useRef, useState } from 'react';
@@ -46,6 +51,9 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -84,6 +92,12 @@ export default function SignUp() {
 
   const [errors, setErrors] = useState({});
 
+  let [showPassword, setShowPassword] = useState(false)
+
+  function handleShowPassword() {
+    setShowPassword(!showPassword);
+}
+
   function handleChange(e) {
     setUserData({
       ...userData,
@@ -95,6 +109,20 @@ export default function SignUp() {
       name
     ));
 
+  }
+
+
+  function onSubmit (e){
+    e.preventDefault()
+    if (errors){
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Hay campos no válidos.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
   }
 
 
@@ -116,7 +144,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -188,7 +216,6 @@ export default function SignUp() {
                 <CustomTextField
                   required
                   fullWidth
-                  type='tel'
                   id="phoneNumber"
                   label="Phone Number"
                   name="phoneNumber"
@@ -225,13 +252,19 @@ export default function SignUp() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   autoComplete="new-password"
                   value={userData.password}
                   onChange={handleChange}
                 />
-                {errors.password && <Alert severity="error">{errors.password}</Alert>}
+                <IconButton
+                  onClick={handleShowPassword}
+                  style={{ position: 'absolute', left: '57.5%', top: '66.5%' }}
+                >
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+{errors.password && <Alert severity="error">{errors.password}</Alert>}
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
@@ -245,6 +278,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={onSubmit}
             >
               Sign Up
             </Button>
