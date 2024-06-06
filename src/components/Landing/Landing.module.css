@@ -1,0 +1,66 @@
+.header {
+    padding: 0 1rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav {
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .navLink {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .navLink:hover {
+    text-decoration: underline;
+  }
+  
+  .heroSection {
+    width: 100%;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: divider;
+  }
+  
+  .heroContent {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .heroText {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .heroTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: tighter;
+    letter-spacing: tighter;
+  }
+  
+  .heroDescription {
+    max-width: 700px;
+    color: #f5f5f5;
+  }
+  
+  .heroImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    width: 550;
+    height: 310;
+  }

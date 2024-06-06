@@ -1,13 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Landing from './components/Landing/Landing';
 import Login from './components/Login/Login';
 import SignUp from './components/SingUp/SignUp';
+import Navbar from './components/Navbar/Navbar';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+
   return (
     <div className="App">
+      <Navbar></Navbar>
       <Routes>
         <Route path='/' element={<Login></Login>}></Route>
         <Route path='/landing' element={<Landing></Landing>}></Route>
